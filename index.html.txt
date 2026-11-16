@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영화 이상형 월드컵 32강</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: #1e1e1e;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    h1 { margin-bottom: 20px; color: #ff4757; font-size: 2rem; letter-spacing: -0.5px; }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.95rem; color: #ddd; }
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #2c2c2c;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="tel"]:focus {
+      border-color: #ff4757;
+    }
+    .privacy-box {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #ccc;
+      line-height: 1.6;
+      max-height: 160px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0 25px 0;
+      font-size: 1rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: #ff4757;
+      cursor: pointer;
+    }
+
+    button {
+      background: #ff4757;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+    }
+    button:hover { background: #ff6b81; }
+    button:active { transform: scale(0.99); }
+
+    /* Worldcup Match Styles */
+    .status-bar {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: #ffa502;
+    }
+    .match-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .card {
+      flex: 1;
+      min-width: 260px;
+      background: #2c2c2c;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      border: 3px solid transparent;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #ff4757;
+      box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+    }
+    .card img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+    .card .title {
+      padding: 16px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: #222;
+      color: #fff;
+    }
+
+    /* Result View */
+    .winner-card {
+      max-width: 360px;
+      margin: 0 auto 20px auto;
+      border-color: #ffa502;
+      box-shadow: 0 0 25px rgba(255, 165, 2, 0.4);
+    }
+    
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 1. 정보 입력 및 개인정보 동의 화면 -->
+  <div id="step-info">
+    <h1>🎬 영화 이상형 월드컵 32강</h1>
+    <p style="margin-bottom: 24px; color: #aaa; font-size: 0.95rem;">게임을 시작하기 전에 기본 정보 및 동의 사항을 입력해 주세요.</p>
+    
+    <div class="form-group">
+      <label for="userName">이름</label>
+      <input type="text" id="userName" placeholder="이름을 입력하세요">
+    </div>
+    
+    <div class="form-group">
+      <label for="userSchool">학교 선택</label>
+      <select id="userSchool">
+        <option value="">학교를 선택하세요</option>
+        <option value="진주교육대학교">진주교육대학교</option>
+        <option value="부산교육대학교">부산교육대학교</option>
+        <option value="대구교육대학교">대구교육대학교</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="userStudentId">학번</label>
+      <input type="text" id="userStudentId" placeholder="학번을 입력하세요 ">
+    </div>
+    
+    <div class="form-group">
+      <label for="userPhone">전화번호</label>
+      <input type="tel" id="userPhone" placeholder="010-0000-0000">
+    </div>
+
+<div class="form-group">
+  <label for="roundSelect">월드컵 라운드 선택</label>
+  <select id="roundSelect">
+    <option value="32">32강 (기본)</option>
+    <option value="16">16강</option>
+    <option value="8">8강</option>
+  </select>
+</div>
+
+    <div class="privacy-box"><strong>개인정보 수집 및 이용 안내</strong>
+
+이벤트 참여 확인 및 당첨자 안내를 위해 아래와 같이 개인정보를 수집합니다.
+
+수집 항목: 이름, 학교명, 전화번호, 학번
+수집 목적: 이벤트 참여자 확인 및 당첨자 안내
+보유 및 이용 기간:이벤트 종료 후 1주일 이내 파기
+
+수집된 개인정보는 위 목적 외에는 사용하지 않으며, 보유 기간이 지난 후 즉시 안전하게 파기됩니다.
+개인정보 수집 및 이용에 동의하지 않을 권리가 있으나, 동의하지 않을 경우 이벤트 참여가 제한될 수 있습니다.</div>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="privacyCheck">
+      <label for="privacyCheck" style="margin:0; cursor:pointer;">개인정보 수집 및 이용에 동의합니다. ( ⭕ )</label>
+    </div>
+
+    <button onclick="startWorldcup()">이상형 월드컵 시작하기</button>
+  </div>
+
+  <!-- 2. 이상형 월드컵 진행 화면 -->
+  <div id="step-game" class="hidden">
+    <div id="round-status" class="status-bar">32강 (1/16)</div>
+    <div class="match-container">
+      <div class="card" onclick="selectMovie(0)">
+        <img id="img0" src="" alt="영화1">
+        <div id="title0" class="title">영화제목 1</div>
+      </div>
+      <div class="card" onclick="selectMovie(1)">
+        <img id="img1" src="" alt="영화2">
+        <div id="title1" class="title">영화제목 2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 결과 및 구글 시트 전송 화면 -->
+  <div id="step-result" class="hidden">
+    <h1>🏆 우승 영화!</h1>
+    <div class="card winner-card">
+      <img id="winner-img" src="" alt="우승 영화">
+      <div id="winner-title" class="title">우승 영화 제목</div>
+    </div>
+    <p id="result-msg" style="margin-top: 15px; color: #ffa502; font-weight: 600;">결과를 저장하는 중입니다...</p>
+  </div>
+</div>
+
+<script>
+  // ⚠️ 본인의 구글 앱스 스크립트 웹 앱 URL로 변경하세요.
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWbm9cx5gavhX53PSdY5bMU9uJUB3bVLv4g-rnIJ_rQeRIG6E_Ft455whqm70VAX8/exec";
+
+  // 영화 데이터 총 32개 (보내주신 30개 로컬 파일 + 나머지 2개)
+  const movieList = [
+    { name: "건축학개론", img: "건축학개론.jpg" },
+    { name: "겨울왕국", img: "겨울왕국.jpg" },
+    { name: "곡성", img: "곡성.jpg" },
+    { name: "극한직업", img: "극한직업.jpg" },
+    { name: "기생충", img: "기생충.jpg" },
+    { name: "내부자들", img: "내부자들.jpg" },
+    { name: "너의 결혼식", img: "너의 결혼식.jpg" },
+    { name: "너의 이름은", img: "너의 이름은.jpg" },
+    { name: "다크 나이트", img: "다크 나이트.jpg" },
+    { name: "라라랜드", img: "라라랜드.jpg" },
+    { name: "미션 임파서블", img: "미션 임파서블.jpg" },
+    { name: "범죄도시", img: "범죄도시.jpg" },
+    { name: "베테랑", img: "베테랑.jpg" },
+    { name: "부산행", img: "부산행.jpg" },
+    { name: "살인의 추억", img: "살인의 추억.jpg" },
+    { name: "설국열차", img: "설국열차.jpg" },
+    { name: "스물", img: "스물.jpg" },
+    { name: "스파이더맨", img: "스파이더맨.jpg" },
+    { name: "신세계", img: "신세계.jpg" },
+    { name: "아이언맨", img: "아이언맨.jpg" },
+    { name: "어바웃 타임", img: "어바웃 타임.jpg" },
+    { name: "어벤져스", img: "어벤져스.jpg" },
+    { name: "엑시트", img: "엑시트.jpg" },
+    { name: "인사이드 아웃", img: "인사이드 아웃.jpg" },
+    { name: "인터스텔라", img: "인터스텔라.jpg" },
+    { name: "청년경찰", img: "청년경찰.jpg" },
+    { name: "추격자", img: "추격자.jpg" },
+    { name: "타이타닉", img: "타이타닉.jpg" },
+    { name: "타짜", img: "타짜.jpg" },
+    { name: "탑건: 매버릭", img: "탑건.jpg" },
+    { name: "토이 스토리", img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80" },
+    { name: "해리포터", img: "해리포터.jpg" }
+  ];
+
+  let currentRoundMovies = [];
+  let nextRoundMovies = [];
+  let matchIndex = 0;
+  let userData = {};
+
+  function startWorldcup() {
+    const name = document.getElementById('userName').value.trim();
+    const studentId = document.getElementById('userStudentId').value.trim();
+    const school = document.getElementById('userSchool').value;
+    const phone = document.getElementById('userPhone').value.trim();
+    const roundCount = parseInt(document.getElementById('roundSelect').value);
+    const privacy = document.getElementById('privacyCheck').checked;
+
+    if (!name || !studentId || !school || !phone) {
+      alert("이름, 학교명, 학번, 전화번호를 모두 입력해 주세요.");
+      return;
+    }
+    if (!privacy) {
+      alert("개인정보 수집 및 이용 동의(⭕)에 체크해 주셔야 참가 가능합니다.");
+      return;
+    }
+
+    userData = { name, studentId, school, phone, privacy: privacy ? "동의" : "비동의" };
+
+const shuffled = [...movieList].sort(() => Math.random() - 0.5);
+currentRoundMovies = shuffled.slice(0, roundCount);
+    nextRoundMovies = [];
+    matchIndex = 0;
+
+    document.getElementById('step-info').classList.add('hidden');
+    document.getElementById('step-game').classList.remove('hidden');
+
+    renderMatch();
+  }
+
+  function renderMatch() {
+    const totalMatches = currentRoundMovies.length / 2;
+    const currentMatchNum = matchIndex + 1;
+    const roundName = currentRoundMovies.length === 2 ? "결승전" : `${currentRoundMovies.length}강`;
+
+    document.getElementById('round-status').innerText = `${roundName} (${currentMatchNum}/${totalMatches})`;
+
+    const movie1 = currentRoundMovies[matchIndex * 2];
+    const movie2 = currentRoundMovies[matchIndex * 2 + 1];
+
+    document.getElementById('img0').src = movie1.img;
+    document.getElementById('title0').innerText = movie1.name;
+
+    document.getElementById('img1').src = movie2.img;
+    document.getElementById('title1').innerText = movie2.name;
+  }
+
+  function selectMovie(selectedOffset) {
+    const winner = currentRoundMovies[matchIndex * 2 + selectedOffset];
+    nextRoundMovies.push(winner);
+
+    matchIndex++;
+
+    if (matchIndex * 2 >= currentRoundMovies.length) {
+      if (nextRoundMovies.length === 1) {
+        showWinner(nextRoundMovies[0]);
+      } else {
+        currentRoundMovies = [...nextRoundMovies];
+        nextRoundMovies = [];
+        matchIndex = 0;
+        renderMatch();
+      }
+    } else {
+      renderMatch();
+    }
+  }
+
+  function showWinner(winnerMovie) {
+const finalMsg = "참여 완료! 낙동 현장 이벤트도 많은 참여 부탁드립니다!!";
+    document.getElementById('step-game').classList.add('hidden');
+    document.getElementById('step-result').classList.remove('hidden');
+
+    document.getElementById('winner-img').src = winnerMovie.img;
+    document.getElementById('winner-title').innerText = winnerMovie.name;
+
+    userData.winner = winnerMovie.name;
+
+    if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith("http")) {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      }).then(() => {
+        document.getElementById('result-msg').innerText = "참여 완료! 축제 당일 다양한 현장 이벤트도 잊지 마세요!!";
+      }).catch(err => {
+        console.error(err);
+        document.getElementById('result-msg').innerText = "참여 완료! 축제 당일 다양한 현장 이벤트도 잊지 마세요!!";
+      });
+    } else {
+      document.getElementById('result-msg').innerText = "참여 완료! 축제 당일 다양한 현장 이벤트도 잊지 마세요!!";
+    }
+  }
+</script>
+
+</body>
+</html>
