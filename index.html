@@ -475,8 +475,8 @@
         let hintText = '';
 
         if (isRepeat) {
-          // [유형 A] 단위 반복 규칙 (ABABAB, AABAAB, ABBABB, ABCABC)
-          const subType = randInt(1, 4);
+          // [유형 A] 단위 반복 규칙 (ABABAB, AABAAB, ABBABB, ABBABB, ABAABA, ABCABC)
+          const subType = randInt(1, 6);
           if (subType === 1) {
             const [a, b] = pickDistinctDigits(2, 1, 9);
             sequence = [a, b, a, b, a, b];
@@ -495,6 +495,18 @@
             const spots = [[3, 5], [4, 5], [2, 4], [1, 5]];
             blankIndices = spots[randInt(0, spots.length - 1)];
             hintText = `💡 힌트: [${a}, ${b}, ${b}] 묶음이 반복돼요!`;
+          } else if (subType === 4) {
+            const [a, b] = pickDistinctDigits(2, 1, 9);
+            sequence = [a, b, b, a, b, b, a];
+            const spots = [[3, 6], [4, 6], [2, 5], [1, 4]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${b}, ${b}] 묶음이 반복돼요!`;
+            } else if (subType === 5) {
+            const [a, b] = pickDistinctDigits(2, 1, 9);
+            sequence = [a, b, a, a, b, a];
+            const spots = [[3, 5], [4, 5], [2, 4], [1, 5]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${b}, ${a}] 묶음이 반복돼요!`;
           } else {
             const [a, b, c] = pickDistinctDigits(3, 1, 9);
             sequence = [a, b, c, a, b, c];
