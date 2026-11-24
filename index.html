@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@700;900&display=swap" rel="stylesheet" />
   <style>
-    * {
+- {
       box-sizing: border-box;
       user-select: none;
       -webkit-user-select: none;
@@ -390,12 +390,12 @@
 
   <script>
     /**
-     * 수 배열 규칙 찾기 대결! (1학년 1반)
-     * - 양 팀 독립 멀티터치(pointerdown) 동시 입력 지원
-     * - 팀별 160ms 펜 연타/더블 탭 중복 방지 안전장치 적용
-     * - 4가지 테마(기차 칸, 풍선 띠, 징검다리, 나무 블록) 랜덤 적용
-     * - 스마트 하이브리드 입력(한 자릿수 즉시 이동/채점, 두 자릿수 확인 버튼 + 목표 자릿수 도달 시 자동 채점)
-     * - 2회 오답 시 규칙 힌트 자동 표시 + 릴레이 교대 안내 배너
+- 수 배열 규칙 찾기 대결! (1학년 1반)
+- - 양 팀 독립 멀티터치(pointerdown) 동시 입력 지원
+- - 팀별 160ms 펜 연타/더블 탭 중복 방지 안전장치 적용
+- - 4가지 테마(기차 칸, 풍선 띠, 징검다리, 나무 블록) 랜덤 적용
+- - 스마트 하이브리드 입력(한 자릿수 즉시 이동/채점, 두 자릿수 확인 버튼 + 목표 자릿수 도달 시 자동 채점)
+- - 2회 오답 시 규칙 힌트 자동 표시 + 릴레이 교대 안내 배너
      */
 
     const THEMES = [
@@ -461,9 +461,9 @@
     }
 
     /**
-     * 무한 랜덤 문제 생성기
-     * - 6칸 또는 7칸 수 배열 + 규칙 추론이 명확한 위치의 빈칸 2개
-     * - 2회 오답 시 보여줄 힌트 문구도 함께 생성
+- 무한 랜덤 문제 생성기
+- - 6칸 또는 7칸 수 배열 + 규칙 추론이 명확한 위치의 빈칸 2개
+- - 2회 오답 시 보여줄 힌트 문구도 함께 생성
      */
     function generateProblem(maxNumber, excludeSignature = '') {
       let tries = 0;
@@ -486,7 +486,7 @@
           } else if (subType === 2) {
             const [a, b] = pickDistinctDigits(2, 1, 9);
             sequence = [a, a, b, a, a, b, a];
-            const spots = [[3, 6], [4, 6], [2, 5], [1, 4]];
+            const spots = [[3, 6], [4, 6], [3, 5], [1, 4]];
             blankIndices = spots[randInt(0, spots.length - 1)];
             hintText = `💡 힌트: [${a}, ${a}, ${b}] 묶음이 반복돼요!`;
           } else if (subType === 3) {
@@ -510,7 +510,7 @@
           } else {
             const [a, b, c] = pickDistinctDigits(3, 1, 9);
             sequence = [a, b, c, a, b, c];
-            const spots = [[3, 5], [4, 5], [3, 4], [2, 5]];
+            const spots = [[3, 5], [4, 5], [3, 4], [2, 4]];
             blankIndices = spots[randInt(0, spots.length - 1)];
             hintText = `💡 힌트: [${a}, ${b}, ${c}] 세 숫자가 반복돼요!`;
           }
