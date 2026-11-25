@@ -159,4 +159,851 @@
     </div>
 
     <!-- 오른쪽: 빨강팀 점수 배지 -->
-    <div class="relative flex items-center gap-2 sm:gap-3 bg-rose-600 text-white px-3.5 sm:px-5 py-1.5 rounded-2xl border-b-4 border-rose
+    <div class="relative flex items-center gap-2 sm:gap-3 bg-rose-600 text-white px-3.5 sm:px-5 py-1.5 rounded-2xl border-b-4 border-rose-800 shadow">
+      <div id="popup-right" class="pointer-events-none absolute -bottom-8 left-2 z-30"></div>
+      <div class="bg-white text-rose-700 px-3 py-0.5 rounded-xl text-2xl sm:text-4xl tracking-tight">
+        <span id="score-right">0</span><span class="text-base sm:text-xl ml-0.5">점</span>
+      </div>
+      <span class="text-lg sm:text-2xl">빨강팀</span>
+      <span class="text-xl sm:text-2xl">❤️</span>
+    </div>
+  </header>
+
+  <!-- ==================== 메인 2분할 대결 영역 ==================== -->
+  <main class="relative flex-1 flex flex-row w-full h-full overflow-hidden">
+
+    <!-- ==================== 왼쪽 팀 (파랑팀) ==================== -->
+    <section id="zone-left" class="relative flex-1 flex flex-col justify-between h-full bg-gradient-to-b from-sky-50 to-blue-100/80 border-r-4 border-slate-300 px-3 sm:px-4 pt-2.5 pb-5 sm:pb-7 overflow-hidden">
+
+      <!-- 상단 테마 & 맞힌 문제 표시 바 -->
+      <div class="flex items-center justify-between bg-white/85 rounded-2xl px-3.5 py-1.5 border-2 border-blue-200 shrink-0">
+        <span id="theme-badge-left" class="px-3 py-0.5 rounded-full bg-blue-100 text-blue-800 text-sm sm:text-lg border border-blue-300">
+          🚂 기차 칸 연결하기
+        </span>
+        <span id="solved-badge-left" class="text-xs sm:text-sm font-bold text-blue-700">맞힌 문제: 0개</span>
+      </div>
+
+      <!-- 중단 문제 & 자동 힌트 영역 -->
+      <div class="relative flex-1 flex flex-col items-center justify-center my-1 px-1">
+        <!-- 정답 + 릴레이 바통 터치 오버레이 -->
+        <div id="relay-left" class="pointer-events-none hidden absolute inset-0 z-20 flex flex-col items-center justify-center bg-blue-50/85 backdrop-blur-[2px] rounded-3xl">
+          <div class="bg-emerald-500 text-white px-6 py-3 rounded-3xl border-4 border-white shadow-xl text-2xl sm:text-4xl mb-2 animate-pop">
+            ⭕ +10점! 정답!
+          </div>
+          <div class="bg-amber-300 text-amber-950 px-5 py-2 rounded-2xl border-2 border-amber-500 shadow-md text-xl sm:text-2xl animate-pop">
+            다음 친구 나와요! 🏃‍♂️
+          </div>
+        </div>
+
+        <!-- 2번 오답 시 나타나는 자동 힌트 배지 -->
+        <div id="hint-box-left" class="hidden mb-2.5 px-4 py-1 rounded-2xl bg-amber-100 text-amber-900 border-2 border-amber-400 text-base sm:text-xl shadow-sm animate-pop">
+          💡 힌트: 규칙을 살펴보세요!
+        </div>
+
+        <!-- 수 배열 타일 컨테이너 -->
+        <div id="sequence-left" class="w-full flex items-center justify-center gap-1.5 sm:gap-2 flex-nowrap py-2">
+          <!-- JS 동적 생성 -->
+        </div>
+
+        <!-- 입력 안내 문구 -->
+        <p id="guide-left" class="mt-2 text-sm sm:text-base text-blue-700/80">
+          빈칸 2개에 알맞은 수를 넣어 보세요!
+        </p>
+      </div>
+
+      <!-- 하단 파랑팀 전용 숫자 키패드 -->
+      <div id="keypad-left" class="bg-white/95 rounded-3xl p-2.5 sm:p-3 border-4 border-blue-300 shadow-lg shrink-0">
+        <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+          <!-- 1행: 1 ~ 5 -->
+          <button type="button" data-team="left" data-key="1" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">1</button>
+          <button type="button" data-team="left" data-key="2" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">2</button>
+          <button type="button" data-team="left" data-key="3" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">3</button>
+          <button type="button" data-team="left" data-key="4" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">4</button>
+          <button type="button" data-team="left" data-key="5" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">5</button>
+
+          <!-- 2행: 6 ~ 0 -->
+          <button type="button" data-team="left" data-key="6" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">6</button>
+          <button type="button" data-team="left" data-key="7" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">7</button>
+          <button type="button" data-team="left" data-key="8" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">8</button>
+          <button type="button" data-team="left" data-key="9" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">9</button>
+          <button type="button" data-team="left" data-key="0" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-blue-50 hover:bg-blue-100 border-b-4 border-blue-300 text-2xl sm:text-3xl text-blue-950 shadow-sm">0</button>
+
+          <!-- 3행: 지움 / 확인 -->
+          <button type="button" data-team="left" data-key="del" class="keypad-btn col-span-2 h-12 sm:h-14 md:h-16 rounded-2xl bg-amber-300 hover:bg-amber-400 border-b-4 border-amber-500 text-lg sm:text-2xl text-amber-950 shadow-sm">⌫ 지움</button>
+          <button type="button" data-team="left" data-key="check" class="keypad-btn col-span-3 h-12 sm:h-14 md:h-16 rounded-2xl bg-emerald-500 hover:bg-emerald-600 border-b-4 border-emerald-700 text-lg sm:text-2xl text-white shadow-sm">확인 ✔</button>
+
+          <!-- 4행: 대형 빨강 패스 버튼 -->
+          <button id="pass-btn-left" type="button" data-team="left" class="pass-btn keypad-btn col-span-5 h-14 sm:h-16 md:h-20 rounded-2xl bg-red-600 hover:bg-red-700 border-b-4 border-red-800 text-2xl sm:text-3xl font-bold text-white shadow-md cursor-pointer tracking-wider">⏭ 패스</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 오른쪽 팀 (빨강팀) ==================== -->
+    <section id="zone-right" class="relative flex-1 flex flex-col justify-between h-full bg-gradient-to-b from-rose-50 to-red-100/80 px-3 sm:px-4 pt-2.5 pb-5 sm:pb-7 overflow-hidden">
+
+      <!-- 상단 테마 & 맞힌 문제 표시 바 -->
+      <div class="flex items-center justify-between bg-white/85 rounded-2xl px-3.5 py-1.5 border-2 border-rose-200 shrink-0">
+        <span id="theme-badge-right" class="px-3 py-0.5 rounded-full bg-rose-100 text-rose-800 text-sm sm:text-lg border border-rose-300">
+          🎈 풍선 띠 완성하기
+        </span>
+        <span id="solved-badge-right" class="text-xs sm:text-sm font-bold text-rose-700">맞힌 문제: 0개</span>
+      </div>
+
+      <!-- 중단 문제 & 자동 힌트 영역 -->
+      <div class="relative flex-1 flex flex-col items-center justify-center my-1 px-1">
+        <!-- 정답 + 릴레이 바통 터치 오버레이 -->
+        <div id="relay-right" class="pointer-events-none hidden absolute inset-0 z-20 flex flex-col items-center justify-center bg-rose-50/85 backdrop-blur-[2px] rounded-3xl">
+          <div class="bg-emerald-500 text-white px-6 py-3 rounded-3xl border-4 border-white shadow-xl text-2xl sm:text-4xl mb-2 animate-pop">
+            ⭕ +10점! 정답!
+          </div>
+          <div class="bg-amber-300 text-amber-950 px-5 py-2 rounded-2xl border-2 border-amber-500 shadow-md text-xl sm:text-2xl animate-pop">
+            다음 친구 나와요! 🏃‍♂️
+          </div>
+        </div>
+
+        <!-- 2번 오답 시 나타나는 자동 힌트 배지 -->
+        <div id="hint-box-right" class="hidden mb-2.5 px-4 py-1 rounded-2xl bg-amber-100 text-amber-900 border-2 border-amber-400 text-base sm:text-xl shadow-sm animate-pop">
+          💡 힌트: 규칙을 살펴보세요!
+        </div>
+
+        <!-- 수 배열 타일 컨테이너 -->
+        <div id="sequence-right" class="w-full flex items-center justify-center gap-1.5 sm:gap-2 flex-nowrap py-2">
+          <!-- JS 동적 생성 -->
+        </div>
+
+        <!-- 입력 안내 문구 -->
+        <p id="guide-right" class="mt-2 text-sm sm:text-base text-rose-700/80">
+          빈칸 2개에 알맞은 수를 넣어 보세요!
+        </p>
+      </div>
+
+      <!-- 하단 빨강팀 전용 숫자 키패드 -->
+      <div id="keypad-right" class="bg-white/95 rounded-3xl p-2.5 sm:p-3 border-4 border-rose-300 shadow-lg shrink-0">
+        <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+          <!-- 1행: 1 ~ 5 -->
+          <button type="button" data-team="right" data-key="1" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">1</button>
+          <button type="button" data-team="right" data-key="2" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">2</button>
+          <button type="button" data-team="right" data-key="3" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">3</button>
+          <button type="button" data-team="right" data-key="4" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">4</button>
+          <button type="button" data-team="right" data-key="5" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">5</button>
+
+          <!-- 2행: 6 ~ 0 -->
+          <button type="button" data-team="right" data-key="6" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">6</button>
+          <button type="button" data-team="right" data-key="7" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">7</button>
+          <button type="button" data-team="right" data-key="8" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">8</button>
+          <button type="button" data-team="right" data-key="9" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">9</button>
+          <button type="button" data-team="right" data-key="0" class="keypad-btn h-12 sm:h-14 md:h-16 rounded-2xl bg-rose-50 hover:bg-rose-100 border-b-4 border-rose-300 text-2xl sm:text-3xl text-rose-950 shadow-sm">0</button>
+
+          <!-- 3행: 지움 / 확인 -->
+          <button type="button" data-team="right" data-key="del" class="keypad-btn col-span-2 h-12 sm:h-14 md:h-16 rounded-2xl bg-amber-300 hover:bg-amber-400 border-b-4 border-amber-500 text-lg sm:text-2xl text-amber-950 shadow-sm">⌫ 지움</button>
+          <button type="button" data-team="right" data-key="check" class="keypad-btn col-span-3 h-12 sm:h-14 md:h-16 rounded-2xl bg-emerald-500 hover:bg-emerald-600 border-b-4 border-emerald-700 text-lg sm:text-2xl text-white shadow-sm">확인 ✔</button>
+
+          <!-- 4행: 대형 빨강 패스 버튼 -->
+          <button id="pass-btn-right" type="button" data-team="right" class="pass-btn keypad-btn col-span-5 h-14 sm:h-16 md:h-20 rounded-2xl bg-red-600 hover:bg-red-700 border-b-4 border-red-800 text-2xl sm:text-3xl font-bold text-white shadow-md cursor-pointer tracking-wider">⏭ 패스</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 시작 설정 모달 ==================== -->
+    <div id="start-overlay" class="absolute inset-0 z-30 flex items-center justify-center bg-slate-900/65 backdrop-blur-sm p-4">
+      <div class="max-w-xl w-full bg-white rounded-3xl border-8 border-amber-300 p-6 sm:p-8 text-center shadow-2xl animate-pop">
+        <div class="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-base sm:text-lg mb-2 border-2 border-amber-300">
+          🏫 1학년 1반 수학 5단원 규칙 찾기
+        </div>
+        <h1 class="text-3xl sm:text-5xl text-slate-800 mb-5">
+          수 배열 규칙 찾기 대결!
+        </h1>
+
+        <!-- 교사용 설정 옵션 -->
+        <div class="space-y-4 mb-6 text-left bg-slate-50 p-4 sm:p-5 rounded-2xl border-2 border-slate-200">
+          <!-- 1. 제한 시간 선택 -->
+          <div>
+            <label class="block text-base sm:text-lg text-slate-600 mb-2">⏱ 제한 시간 선택</label>
+            <div class="grid grid-cols-3 gap-2" id="time-options">
+              <button type="button" data-seconds="180" class="time-opt-btn py-2.5 rounded-xl border-4 border-amber-500 bg-amber-100 text-amber-950 text-lg sm:text-xl font-bold cursor-pointer">
+                3분 (기본)
+              </button>
+              <button type="button" data-seconds="120" class="time-opt-btn py-2.5 rounded-xl border-2 border-slate-300 bg-white text-slate-700 text-lg sm:text-xl cursor-pointer">
+                2분
+              </button>
+              <button type="button" data-seconds="60" class="time-opt-btn py-2.5 rounded-xl border-2 border-slate-300 bg-white text-slate-700 text-lg sm:text-xl cursor-pointer">
+                1분
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. 숫자 범위 선택 -->
+          <div>
+            <label class="block text-base sm:text-lg text-slate-600 mb-2">🔢 숫자 범위 선택</label>
+            <div class="grid grid-cols-2 gap-2" id="range-options">
+              <button type="button" data-max="50" class="range-opt-btn py-2.5 rounded-xl border-4 border-blue-500 bg-blue-100 text-blue-950 text-lg sm:text-xl font-bold cursor-pointer">
+                1 ~ 50 (기본)
+              </button>
+              <button type="button" data-max="20" class="range-opt-btn py-2.5 rounded-xl border-2 border-slate-300 bg-white text-slate-700 text-lg sm:text-xl cursor-pointer">
+                1 ~ 20 (쉬움)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button id="start-game-btn" type="button" class="w-full py-4 sm:py-5 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-rose-500 hover:brightness-110 active:scale-95 text-white text-2xl sm:text-4xl border-b-8 border-indigo-800 shadow-xl transition cursor-pointer">
+          🚀 게임 시작!
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== 일시정지 오버레이 ==================== -->
+    <div id="pause-overlay" class="hidden absolute inset-0 z-30 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+      <div class="max-w-md w-full bg-white rounded-3xl border-8 border-slate-300 p-8 text-center shadow-2xl">
+        <div class="text-6xl mb-3">⏸</div>
+        <h2 class="text-3xl sm:text-4xl text-slate-800 mb-6">잠깐 멈춤!</h2>
+        <button id="resume-btn" type="button" class="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white text-2xl sm:text-3xl border-b-4 border-emerald-700 shadow-lg transition cursor-pointer">
+          ▶ 계속하기
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== 게임 종료 결과 모달 ==================== -->
+    <div id="end-overlay" class="hidden absolute inset-0 z-40 flex items-center justify-center bg-slate-900/75 backdrop-blur-sm p-4">
+      <div class="max-w-2xl w-full bg-white rounded-3xl border-8 border-amber-400 p-6 sm:p-10 text-center shadow-2xl animate-pop">
+        <div class="text-5xl sm:text-6xl mb-2">🏆</div>
+        <h2 id="winner-title" class="text-3xl sm:text-5xl text-slate-800 mb-6">
+          파랑팀 승리!
+        </h2>
+
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div id="result-card-left" class="rounded-3xl bg-blue-50 border-4 border-blue-400 p-5">
+            <div class="text-xl sm:text-2xl text-blue-700 mb-1">💙 파랑팀</div>
+            <div class="text-4xl sm:text-6xl text-blue-600 mb-1"><span id="final-score-left">0</span>점</div>
+            <div class="text-base sm:text-lg text-blue-800/75">맞힌 문제: <span id="final-solved-left">0</span>개</div>
+          </div>
+          <div id="result-card-right" class="rounded-3xl bg-rose-50 border-4 border-rose-400 p-5">
+            <div class="text-xl sm:text-2xl text-rose-700 mb-1">❤️ 빨강팀</div>
+            <div class="text-4xl sm:text-6xl text-rose-600 mb-1"><span id="final-score-right">0</span>점</div>
+            <div class="text-base sm:text-lg text-rose-800/75">맞힌 문제: <span id="final-solved-right">0</span>개</div>
+          </div>
+        </div>
+
+        <button id="restart-game-btn" type="button" class="w-full py-4 sm:py-5 rounded-2xl bg-amber-400 hover:bg-amber-500 active:scale-95 text-amber-950 text-2xl sm:text-3xl border-b-8 border-amber-600 shadow-xl transition cursor-pointer">
+          🔄 다시 하기
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /**
+- 수 배열 규칙 찾기 대결! (1학년 1반)
+- - 양 팀 독립 멀티터치(pointerdown) 동시 입력 지원
+- - 팀별 160ms 펜 연타/더블 탭 중복 방지 안전장치 적용
+- - 4가지 테마(기차 칸, 풍선 띠, 징검다리, 나무 블록) 랜덤 적용
+- - 스마트 하이브리드 입력(한 자릿수 즉시 이동/채점, 두 자릿수 확인 버튼 + 목표 자릿수 도달 시 자동 채점)
+- - 2회 오답 시 규칙 힌트 자동 표시 + 릴레이 교대 안내 배너
+     */
+
+    const THEMES = [
+      { id: 'train', label: '🚂 기차 칸 연결하기', className: 'theme-train' },
+      { id: 'balloon', label: '🎈 풍선 띠 완성하기', className: 'theme-balloon' },
+      { id: 'stone', label: '🪨 징검다리 건너기', className: 'theme-stone' },
+      { id: 'block', label: '🧱 나무 블록 쌓기', className: 'theme-block' }
+    ];
+
+    const state = {
+      selectedDuration: 180, // 기본 3분 (180초)
+      maxNumber: 50,         // 기본 1~50 범위
+      isRunning: false,
+      isPaused: false,
+      timeLeft: 180,
+      timerInterval: null,
+      teams: {
+        left: {
+          score: 0,
+          solvedCount: 0,
+          sequence: [],
+          blankIndices: [],
+          inputs: ['', ''],
+          activeSlot: 0,
+          wrongAttempts: 0,
+          wrongFlags: [false, false],
+          hintText: '',
+          theme: THEMES[0],
+          locked: false,
+          lastSignature: '',
+          lastInputTime: 0
+        },
+        right: {
+          score: 0,
+          solvedCount: 0,
+          sequence: [],
+          blankIndices: [],
+          inputs: ['', ''],
+          activeSlot: 0,
+          wrongAttempts: 0,
+          wrongFlags: [false, false],
+          hintText: '',
+          theme: THEMES[1],
+          locked: false,
+          lastSignature: '',
+          lastInputTime: 0
+        }
+      }
+    };
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pickDistinctDigits(count, min = 1, max = 9) {
+      const pool = [];
+      for (let i = min; i <= max; i++) pool.push(i);
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool.slice(0, count);
+    }
+
+    /**
+- 무한 랜덤 문제 생성기
+- - 6칸 수 배열 + 규칙 추론이 명확한 위치의 빈칸 2개
+- - 2회 오답 시 보여줄 힌트 문구도 함께 생성
+     */
+    function generateProblem(maxNumber, excludeSignature = '') {
+      let tries = 0;
+      while (tries < 25) {
+        tries++;
+        const isRepeat = Math.random() < 0.48;
+        let sequence = [];
+        let blankIndices = [];
+        let hintText = '';
+
+        if (isRepeat) {
+          // [유형 A] 단위 반복 규칙 (ABABAB, AABAAB, ABBABB, ABCABC) - 앞 묶음을 온전히 보여주어 1학년이 쉽게 규칙 파악
+          const subType = randInt(1, 4);
+          if (subType === 1) {
+            const [a, b] = pickDistinctDigits(2, 1, 9);
+            sequence = [a, b, a, b, a, b];
+            const spots = [[2, 5], [3, 5], [2, 4], [4, 5]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${b}]가 계속 반복돼요!`;
+          } else if (subType === 2) {
+            const [a, b] = pickDistinctDigits(2, 1, 9);
+            sequence = [a, a, b, a, a, b];
+            const spots = [[3, 5], [4, 5], [3, 4]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${a}, ${b}] 묶음이 반복돼요!`;
+          } else if (subType === 3) {
+            const [a, b] = pickDistinctDigits(2, 1, 9);
+            sequence = [a, b, b, a, b, b];
+            const spots = [[3, 5], [4, 5], [3, 4]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${b}, ${b}] 묶음이 반복돼요!`;
+          } else {
+            const [a, b, c] = pickDistinctDigits(3, 1, 9);
+            sequence = [a, b, c, a, b, c];
+            const spots = [[3, 5], [4, 5], [3, 4]];
+            blankIndices = spots[randInt(0, spots.length - 1)];
+            hintText = `💡 힌트: [${a}, ${b}, ${c}] 세 숫자가 반복돼요!`;
+          }
+        } else {
+          // [유형 B] 일정하게 커지거나 작아지는 규칙 (+1, -1, +2, -2, +5, -5)
+          const steps = maxNumber <= 20 ? [1, -1, 2, -2] : [1, -1, 2, -2, 5, -5];
+          const step = steps[randInt(0, steps.length - 1)];
+          const length = 6;
+          const span = Math.abs(step) * (length - 1);
+          let start = 1;
+
+          if (step > 0) {
+            const maxStart = Math.max(1, maxNumber - span);
+            if (step === 5) {
+              const maxMul = Math.max(1, Math.floor(maxStart / 5));
+              start = randInt(1, maxMul) * 5;
+            } else {
+              start = randInt(1, maxStart);
+            }
+          } else {
+            const minStart = span + 1;
+            if (step === -5) {
+              const minMul = Math.ceil(minStart / 5);
+              const maxMul = Math.max(minMul, Math.floor(maxNumber / 5));
+              start = randInt(minMul, maxMul) * 5;
+            } else {
+              start = randInt(minStart, maxNumber);
+            }
+          }
+
+          for (let i = 0; i < length; i++) {
+            sequence.push(start + step * i);
+          }
+
+          // 앞의 2~3개 숫자를 보여주어 규칙이 모호하지 않도록 빈칸 2개 선택
+          const spots = [[2, 5], [3, 5], [2, 4], [3, 4], [4, 5]];
+          blankIndices = spots[randInt(0, spots.length - 1)];
+
+          const absStep = Math.abs(step);
+          hintText = step > 0
+            ? `💡 힌트: 오른쪽으로 갈수록 ${absStep}씩 커져요! (+${absStep})`
+            : `💡 힌트: 오른쪽으로 갈수록 ${absStep}씩 작아져요! (-${absStep})`;
+        }
+
+        const signature = `${sequence.join(',')}|${blankIndices.join(',')}`;
+        if (signature !== excludeSignature) {
+          return { sequence, blankIndices, hintText, signature };
+        }
+      }
+
+      return {
+        sequence: [3, 5, 7, 9, 11, 13],
+        blankIndices: [2, 5],
+        hintText: '💡 힌트: 2씩 커져요! (+2)',
+        signature: 'default'
+      };
+    }
+
+    // 팀별 새 문제 출제
+    function assignProblem(teamId) {
+      const team = state.teams[teamId];
+      const otherId = teamId === 'left' ? 'right' : 'left';
+
+      let prob = generateProblem(state.maxNumber, team.lastSignature);
+      if (prob.signature === state.teams[otherId].lastSignature) {
+        prob = generateProblem(state.maxNumber, prob.signature);
+      }
+
+      // 이전과 다른 테마 랜덤 선택
+      const otherThemes = THEMES.filter((t) => t.id !== team.theme.id);
+      team.theme = otherThemes[randInt(0, otherThemes.length - 1)];
+
+      team.sequence = prob.sequence;
+      team.blankIndices = prob.blankIndices;
+      team.hintText = prob.hintText;
+      team.lastSignature = prob.signature;
+      team.inputs = ['', ''];
+      team.activeSlot = 0;
+      team.wrongAttempts = 0;
+      team.wrongFlags = [false, false];
+      team.locked = false;
+
+      // UI 갱신
+      document.getElementById(`theme-badge-${teamId}`).textContent = team.theme.label;
+      const hintEl = document.getElementById(`hint-box-${teamId}`);
+      hintEl.classList.add('hidden');
+      hintEl.textContent = team.hintText;
+
+      // 한 자릿수 전용 문제인지 두 자릿수 포함 문제인지 안내 문구 업데이트
+      const hasTwoDigit = team.blankIndices.some((idx) => team.sequence[idx] >= 10);
+      const guideEl = document.getElementById(`guide-${teamId}`);
+      guideEl.textContent = hasTwoDigit
+        ? '두 자리 수가 있어요! 다 쓰고 [확인 ✔]을 눌러도 돼요.'
+        : '빈칸 2개에 숫자를 누르면 바로 채점돼요!';
+
+      renderSequence(teamId, true);
+    }
+
+    // 수 배열 카드 렌더링
+    function renderSequence(teamId, isNew = false) {
+      const team = state.teams[teamId];
+      const container = document.getElementById(`sequence-${teamId}`);
+      container.innerHTML = '';
+
+      const isBlue = teamId === 'left';
+      const themeClass = team.theme.className;
+      const len = team.sequence.length;
+      const sizeClass = len >= 7
+        ? 'max-w-[74px] text-2xl sm:text-3xl lg:text-4xl'
+        : 'max-w-[84px] text-3xl sm:text-4xl lg:text-5xl';
+
+      team.sequence.forEach((num, idx) => {
+        const slotIdx = team.blankIndices.indexOf(idx);
+        const tile = document.createElement('div');
+
+        if (slotIdx === -1) {
+          // 일반 숫자 카드
+          let bgBorder = 'bg-white border-slate-200 text-slate-800';
+          if (team.theme.id === 'block') bgBorder = 'bg-amber-50 border-amber-300 text-amber-950';
+          if (team.theme.id === 'stone') bgBorder = 'bg-stone-100 border-stone-300 text-stone-800';
+
+          tile.className = `num-tile ${themeClass} flex-1 ${sizeClass} aspect-square border-4 ${bgBorder} flex items-center justify-center shadow-md ${isNew ? 'animate-pop' : ''}`;
+          tile.textContent = num;
+        } else {
+          // 빈칸 카드
+          const isSelected = team.activeSlot === slotIdx && !team.locked;
+          const isWrong = team.wrongFlags[slotIdx];
+          const val = team.inputs[slotIdx];
+
+          let boxStyle = 'bg-white border-slate-300 text-slate-800';
+          if (isWrong) {
+            boxStyle = 'bg-red-100 border-red-500 text-red-600 animate-shake';
+          } else if (isSelected) {
+            boxStyle = isBlue
+              ? 'bg-blue-50 border-blue-500 ring-4 ring-blue-300 text-blue-900'
+              : 'bg-rose-50 border-rose-500 ring-4 ring-rose-300 text-rose-900';
+          } else if (val !== '') {
+            boxStyle = isBlue
+              ? 'bg-blue-50/70 border-blue-400 text-blue-900'
+              : 'bg-rose-50/70 border-rose-400 text-rose-900';
+          }
+
+          tile.className = `num-tile ${themeClass} flex-1 ${sizeClass} aspect-square border-4 ${boxStyle} flex items-center justify-center shadow-md cursor-pointer transition-all ${isNew ? 'animate-pop' : ''}`;
+
+          if (val === '') {
+            const cursor = document.createElement('span');
+            cursor.className = isSelected
+              ? `cursor-blink ${isBlue ? 'text-blue-500' : 'text-rose-500'}`
+              : 'text-slate-300';
+            cursor.textContent = isSelected ? '⬜' : '?';
+            tile.appendChild(cursor);
+          } else {
+            tile.textContent = val;
+          }
+
+          // 빈칸 직접 터치로 선택 전환
+          tile.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!state.isRunning || state.isPaused || team.locked) return;
+            team.activeSlot = slotIdx;
+            renderSequence(teamId, false);
+          });
+        }
+
+        container.appendChild(tile);
+      });
+    }
+
+    // 키패드 입력 처리 (양 팀 동시 멀티터치 허용 + 팀별 160ms 펜 연타 방지)
+    function handleKeyInput(teamId, key) {
+      if (!state.isRunning || state.isPaused) return;
+      const team = state.teams[teamId];
+      if (team.locked) return;
+
+      // 같은 팀에서 0.16초(160ms) 이내 펜 떨림/연타 중복 입력 차단 (양 팀 동시 입력은 독립 작동)
+      const now = Date.now();
+      if (now - team.lastInputTime < 160) return;
+      team.lastInputTime = now;
+
+      const slot = team.activeSlot;
+      const ans0 = String(team.sequence[team.blankIndices[0]]);
+      const ans1 = String(team.sequence[team.blankIndices[1]]);
+      const targetLen = slot === 0 ? ans0.length : ans1.length;
+
+      // 1. 지우기 버튼
+      if (key === 'del') {
+        if (team.inputs[slot].length > 0) {
+          team.inputs[slot] = team.inputs[slot].slice(0, -1);
+        } else {
+          const otherSlot = slot === 0 ? 1 : 0;
+          if (team.inputs[otherSlot].length > 0) {
+            team.activeSlot = otherSlot;
+            team.inputs[otherSlot] = team.inputs[otherSlot].slice(0, -1);
+          }
+        }
+        renderSequence(teamId, false);
+        return;
+      }
+
+      // 2. 확인 버튼
+      if (key === 'check') {
+        if (team.inputs[0] !== '' && team.inputs[1] !== '') {
+          checkTeamAnswer(teamId);
+        } else {
+          // 비어있는 칸으로 포커스 안내
+          team.activeSlot = team.inputs[0] === '' ? 0 : 1;
+          renderSequence(teamId, false);
+        }
+        return;
+      }
+
+      // 3. 숫자 버튼 (0~9)
+      if (team.inputs[slot].length < 2) {
+        // 선행 0 방지 (예: '05' 대신 '5'로 입력되도록)
+        if (team.inputs[slot] === '0') {
+          team.inputs[slot] = key;
+        } else {
+          team.inputs[slot] += key;
+        }
+      } else {
+        // 이미 2자리면 새로 입력
+        team.inputs[slot] = key;
+      }
+
+      const otherSlot = slot === 0 ? 1 : 0;
+      const otherTargetLen = otherSlot === 0 ? ans0.length : ans1.length;
+
+      // 현재 칸이 정답 자릿수만큼 채워졌고 다른 칸이 아직 미완성이면 자동 이동
+      if (team.inputs[slot].length >= targetLen && team.inputs[otherSlot].length < otherTargetLen) {
+        team.activeSlot = otherSlot;
+        renderSequence(teamId, false);
+        return;
+      }
+
+      renderSequence(teamId, false);
+
+      // 두 빈칸 모두 예상 자릿수만큼 입력되었는지 확인
+      const bothReachedLen =
+        team.inputs[0].length === ans0.length &&
+        team.inputs[1].length === ans1.length;
+
+      if (bothReachedLen) {
+        const bothSingleDigit = ans0.length === 1 && ans1.length === 1;
+        if (bothSingleDigit) {
+          // 한 자릿수 문제는 즉시 자동 채점
+          checkTeamAnswer(teamId);
+        } else {
+          // 두 자릿수 포함 문제는 아이가 입력된 숫자를 눈으로 잠깐 확인할 수 있게 180ms 후 자동 채점
+          setTimeout(() => {
+            if (!team.locked && team.inputs[0].length === ans0.length && team.inputs[1].length === ans1.length) {
+              checkTeamAnswer(teamId);
+            }
+          }, 180);
+        }
+      }
+    }
+
+    // 정답 검증 로직
+    function checkTeamAnswer(teamId) {
+      const team = state.teams[teamId];
+      if (team.locked) return;
+
+      const ans0 = String(team.sequence[team.blankIndices[0]]);
+      const ans1 = String(team.sequence[team.blankIndices[1]]);
+
+      const ok0 = team.inputs[0] === ans0;
+      const ok1 = team.inputs[1] === ans1;
+
+      if (ok0 && ok1) {
+        // 정답 처리!
+        team.locked = true;
+        team.score += 10;
+        team.solvedCount += 1;
+
+        document.getElementById(`score-${teamId}`).textContent = team.score;
+        document.getElementById(`solved-badge-${teamId}`).textContent = `맞힌 문제: ${team.solvedCount}개`;
+        spawnScorePopup(teamId);
+
+        // 정답 + "다음 친구 나와요! 🏃‍♂️" 릴레이 배너 표시 (1.1초)
+        const relayEl = document.getElementById(`relay-${teamId}`);
+        relayEl.classList.remove('hidden');
+
+        setTimeout(() => {
+          relayEl.classList.add('hidden');
+          if (state.isRunning) {
+            assignProblem(teamId);
+          }
+        }, 1100);
+      } else {
+        // 오답 처리: 틀린 칸만 흔들리고 지워짐 (맞힌 칸은 그대로 유지!)
+        team.locked = true;
+        team.wrongAttempts += 1;
+        team.wrongFlags = [!ok0, !ok1];
+        renderSequence(teamId, false);
+
+        // 2번 이상 틀리면 자동 힌트 배지 활성화
+        if (team.wrongAttempts >= 2) {
+          const hintEl = document.getElementById(`hint-box-${teamId}`);
+          hintEl.textContent = team.hintText;
+          hintEl.classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+          if (!ok0) team.inputs[0] = '';
+          if (!ok1) team.inputs[1] = '';
+          team.wrongFlags = [false, false];
+          team.activeSlot = !ok0 ? 0 : 1;
+          team.locked = false;
+          renderSequence(teamId, false);
+        }, 380);
+      }
+    }
+
+    function spawnScorePopup(teamId) {
+      const container = document.getElementById(`popup-${teamId}`);
+      const el = document.createElement('div');
+      el.className = 'animate-float-score whitespace-nowrap px-3 py-1 rounded-full bg-amber-400 text-amber-950 font-bold text-xl sm:text-2xl border-2 border-white shadow-lg';
+      el.textContent = '+10점!';
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+      const display = document.getElementById('timer-display');
+      const box = document.getElementById('timer-box');
+      display.textContent = formatTime(state.timeLeft);
+
+      if (state.timeLeft <= 15 && state.timeLeft > 0) {
+        display.classList.add('text-rose-400');
+        box.classList.add('timer-urgent', 'border-rose-500');
+      } else {
+        display.classList.remove('text-rose-400');
+        box.classList.remove('timer-urgent', 'border-rose-500');
+      }
+    }
+
+    // 게임 시작
+    function startGame() {
+      clearInterval(state.timerInterval);
+
+      state.isRunning = true;
+      state.isPaused = false;
+      state.timeLeft = state.selectedDuration;
+
+      ['left', 'right'].forEach((teamId) => {
+        const team = state.teams[teamId];
+        team.score = 0;
+        team.solvedCount = 0;
+        document.getElementById(`score-${teamId}`).textContent = '0';
+        document.getElementById(`solved-badge-${teamId}`).textContent = '맞힌 문제: 0개';
+        document.getElementById(`relay-${teamId}`).classList.add('hidden');
+        assignProblem(teamId);
+      });
+
+      updateTimerDisplay();
+
+      document.getElementById('start-overlay').classList.add('hidden');
+      document.getElementById('pause-overlay').classList.add('hidden');
+      document.getElementById('end-overlay').classList.add('hidden');
+
+      state.timerInterval = setInterval(() => {
+        if (!state.isRunning || state.isPaused) return;
+        state.timeLeft -= 1;
+        updateTimerDisplay();
+        if (state.timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    // 게임 종료 및 결과 발표
+    function endGame() {
+      clearInterval(state.timerInterval);
+      state.isRunning = false;
+      state.teams.left.locked = true;
+      state.teams.right.locked = true;
+
+      const left = state.teams.left;
+      const right = state.teams.right;
+
+      document.getElementById('final-score-left').textContent = left.score;
+      document.getElementById('final-solved-left').textContent = left.solvedCount;
+      document.getElementById('final-score-right').textContent = right.score;
+      document.getElementById('final-solved-right').textContent = right.solvedCount;
+
+      const title = document.getElementById('winner-title');
+      const cardL = document.getElementById('result-card-left');
+      const cardR = document.getElementById('result-card-right');
+
+      cardL.classList.remove('ring-8', 'ring-amber-400', 'scale-105');
+      cardR.classList.remove('ring-8', 'ring-amber-400', 'scale-105');
+
+      if (left.score > right.score) {
+        title.textContent = '🎉 파랑팀 승리! 축하합니다!';
+        title.className = 'text-3xl sm:text-5xl text-blue-600 mb-6';
+        cardL.classList.add('ring-8', 'ring-amber-400', 'scale-105');
+      } else if (right.score > left.score) {
+        title.textContent = '🎉 빨강팀 승리! 축하합니다!';
+        title.className = 'text-3xl sm:text-5xl text-rose-600 mb-6';
+        cardR.classList.add('ring-8', 'ring-amber-400', 'scale-105');
+      } else {
+        title.textContent = '🤝 우와! 사이좋은 무승부!';
+        title.className = 'text-3xl sm:text-5xl text-amber-600 mb-6';
+      }
+
+      document.getElementById('end-overlay').classList.remove('hidden');
+    }
+
+    // 이벤트 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      // 멀티터치 키패드 바인딩
+      document.querySelectorAll('.keypad-btn').forEach((btn) => {
+        btn.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (btn.classList.contains('pass-btn')) return;
+          btn.classList.add('pressed');
+          setTimeout(() => btn.classList.remove('pressed'), 90);
+          handleKeyInput(btn.dataset.team, btn.dataset.key);
+        });
+      });
+
+      // 패스 버튼 바인딩
+      document.querySelectorAll('.pass-btn').forEach((btn) => {
+        btn.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          btn.classList.add('pressed');
+          setTimeout(() => btn.classList.remove('pressed'), 90);
+          const teamId = btn.dataset.team;
+          const team = state.teams[teamId];
+          if (!state.isRunning || state.isPaused || team.locked) return;
+
+          // 패스 버튼도 실수 연타(0.3초 이내 두 번 눌림) 방지
+          const now = Date.now();
+          if (now - team.lastInputTime < 300) return;
+          team.lastInputTime = now;
+
+          assignProblem(teamId);
+        });
+      });
+
+      // 시작 모달: 시간 선택 버튼
+      document.querySelectorAll('.time-opt-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedDuration = Number(btn.dataset.seconds);
+          document.querySelectorAll('.time-opt-btn').forEach((b) => {
+            b.className = 'time-opt-btn py-2.5 rounded-xl border-2 border-slate-300 bg-white text-slate-700 text-lg sm:text-xl cursor-pointer';
+          });
+          btn.className = 'time-opt-btn py-2.5 rounded-xl border-4 border-amber-500 bg-amber-100 text-amber-950 text-lg sm:text-xl font-bold cursor-pointer';
+        });
+      });
+
+      // 시작 모달: 숫자 범위 선택 버튼
+      document.querySelectorAll('.range-opt-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.maxNumber = Number(btn.dataset.max);
+          document.querySelectorAll('.range-opt-btn').forEach((b) => {
+            b.className = 'range-opt-btn py-2.5 rounded-xl border-2 border-slate-300 bg-white text-slate-700 text-lg sm:text-xl cursor-pointer';
+          });
+          btn.className = 'range-opt-btn py-2.5 rounded-xl border-4 border-blue-500 bg-blue-100 text-blue-950 text-lg sm:text-xl font-bold cursor-pointer';
+        });
+      });
+
+      // 시작 / 재시작 / 일시정지 / 처음부터
+      document.getElementById('start-game-btn').addEventListener('click', startGame);
+      document.getElementById('restart-game-btn').addEventListener('click', startGame);
+
+      document.getElementById('pause-btn').addEventListener('click', () => {
+        if (!state.isRunning) return;
+        state.isPaused = true;
+        document.getElementById('pause-overlay').classList.remove('hidden');
+      });
+
+      document.getElementById('resume-btn').addEventListener('click', () => {
+        state.isPaused = false;
+        document.getElementById('pause-overlay').classList.add('hidden');
+      });
+
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        clearInterval(state.timerInterval);
+        state.isRunning = false;
+        state.isPaused = false;
+        state.timeLeft = state.selectedDuration;
+        updateTimerDisplay();
+        document.getElementById('pause-overlay').classList.add('hidden');
+        document.getElementById('end-overlay').classList.add('hidden');
+        document.getElementById('start-overlay').classList.remove('hidden');
+      });
+
+      // 대기 배경용 초기 문제 세팅
+      assignProblem('left');
+      assignProblem('right');
+    });
+  </script>
+</body>
+</html>
